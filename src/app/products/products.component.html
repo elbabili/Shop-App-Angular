@@ -1,0 +1,23 @@
+<div *ngIf="responseProd">
+
+  <div *ngFor="let p of responseProd._embedded.products">
+      <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">{{p.name}}</div>
+            <div class="panel-body">
+                <table>
+                  <tr>
+                    <td>
+                      <img height="100" src="{{this.catService.host+'/photoProduct/'+p.id}}" />
+                    </td>
+
+                  </tr>
+
+                </table>
+
+            </div>
+        </div>
+      </div>
+  </div>
+
+</div>
