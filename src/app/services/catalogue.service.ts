@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpRequest} from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Product } from './model/product.model';
+import { Product } from '../model/product.model';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class CatalogueService {
-  public host : String = "http://localhost:8080";
+  public host : String = "http://192.168.0.38:5000";
 
   constructor(private http:HttpClient) { }
 
@@ -20,9 +21,8 @@ export class CatalogueService {
   }
 
   public getProduct(url) : Observable <Product>{
-        //console.log(this.host+url);
         return this.http.get<Product>(this.host+url);
-   }
+  }
 
   public uploadPhotoProduct(file:File, idProduct):Observable<HttpEvent<{}>>{
         let formData:FormData = new FormData();
@@ -34,7 +34,11 @@ export class CatalogueService {
     return this.http.request(req);
   }
 
-  public patchResource(url,data){
-      return this.http.patch(url,data);
+  public patchRessource(url,data){
+      return this.http.patch(this.host + url,data);
+  }
+
+  public updateRessource(url,data){
+      return this.http.put(this.host + url,data);
   }
 }

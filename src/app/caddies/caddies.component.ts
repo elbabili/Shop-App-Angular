@@ -1,5 +1,5 @@
 import {Component, OnInit } from '@angular/core';
-import {CatalogueService} from '../catalogue.service';
+import {CatalogueService} from '../services/catalogue.service';
 import {Product} from '../model/product.model';
 import {Router} from '@angular/router';
 import {CaddyService} from '../services/caddy.service';
@@ -17,12 +17,13 @@ export class CaddiesComponent implements OnInit {
   public caddy:Caddy;
 
   constructor(private catService:CatalogueService, private router:Router,
-              private caddyService:CaddyService, private authService:AuthenticationService) { }
+              private caddyService:CaddyService, private authService:AuthenticationService) { 
+    this.caddy = this.caddyService.getCaddy();            
+  }
 
   ngOnInit() {
-    if(this.authService.isAuthenticated == false)   this.router.navigateByUrl('/login');
-    this.caddy=this.caddyService.getCaddy();
-    //console.log(this.caddy);
+    //if(this.authService.isAuthenticated == false)   this.router.navigateByUrl('/login');
+    //this.caddy = this.caddyService.getCaddy();
   }
 
   onRemoveProductFromCaddy(p: ItemProduct) {
@@ -33,18 +34,10 @@ export class CaddiesComponent implements OnInit {
       return this.caddyService.getTotalCurrentCaddy();
   }
 
-  onNewOrder() {
-    this.router.navigateByUrl("/client");
+  onNewOrder() {  //ToDO pour une personne non authentifié qui souhaite réaliser un panier ok 
+                  //mais si elle souhaite passer commande, il faut s'authentifier
+    if(this.authService.isAuthenticated == false)   this.router.navigateByUrl('/login');
+    else this.router.navigateByUrl("/client");
   }
 
-  onAddCaddy() {
- //   let size=this.caddyService.listCaddies.length;
- //   let index:number=this.caddyService.listCaddies[size-1].num;
- //   this.caddyService.addNewCaddy({num:index+1,name:"Caddy"+(index+1)});
-  }
-
-  onSelectCaddy(c: { num: number; name: string }) {
- //   this.caddyService.currentCaddyName=c.name;
- //   this.caddy=this.caddyService.getCaddy();
-  }
 }

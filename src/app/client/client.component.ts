@@ -36,7 +36,7 @@ export class ClientComponent implements OnInit {
   onOrder() {
     this.orderService.submitOrder().subscribe(data=>{
       this.orderService.order.id=data['id'];
-      this.orderService.order.date=data['date'];
+      this.orderService.order.date = new Date(data['date']);
       this.panelStyle="panel-success";
     },err=>{
       console.log(err);

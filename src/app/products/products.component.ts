@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CatalogueService } from '../catalogue.service';
+import { CatalogueService } from '../services/catalogue.service';
 import { ActivatedRoute, Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { HttpEventType, HttpResponse} from '@angular/common/http';
 import { AuthenticationService } from '../services/authentication.service';
@@ -21,35 +21,35 @@ export class ProductsComponent implements OnInit {
   title:String;
 
   constructor(public catService:CatalogueService, private route:ActivatedRoute,
-   private router:Router, public authService:AuthenticationService,
+    private router:Router, public authService:AuthenticationService,
     public caddyService:CaddyService) {  }
 
   ngOnInit() {
        this.router.events.subscribe(val=>{     //en cas d'évènement sur notre routeur, il faudra bien venir ici pour traitement
                 if(val instanceof NavigationEnd){
                     let firstParam = this.route.snapshot.params.p1;
-
                     if(firstParam == 1){     //indicateur permettant de gérer l'affichage des produits selectionnés
-                        this.title = "Produits selectionnés";
-                        this.getProducts("/products/search/selectedProducts");
+                        this.title = "PRODUITS SELECTIONNÉS";
+                        this.getProducts("/selectedProducts");
                     }
                     else if(firstParam == 2){   //affichage par catégorie
-                        this.title = "Produits par catégories";
+                        this.title = "PRODUITS CLASSÉS PAR CATÉGORIE";
                         let secondParam = this.route.snapshot.params.p2;    //id de la catégorie concernée
                         this.getProducts("/categories/"+secondParam+"/products");
                     }
                     else if(firstParam == 3){    //affichage des produits en promo
-                         this.title = "Produits en promotion";
-                         this.getProducts("/products/search/promoProducts");
+                         this.title = "PRODUITS EN PROMOTION";
+                         this.getProducts("/promotionProducts");
                     }
                     else if(firstParam == 4){    //affichage des produits dispo
-                         this.title = "Produits disponible";
-                         this.getProducts("/products/search/dispoProducts");
+                         this.title = "PRODUITS DISPONIBLE";
+                         this.getProducts("/availableProducts");
                     }
                 }
        });
-       this.title = "Produits selectionnés";
-       this.getProducts("/products/search/selectedProducts");
+       //affichage par défaut
+       this.title = "PRODUITS SELECTIONNÉS";
+       this.getProducts("/selectedProducts");
   }
 
   private getProducts(url){
@@ -83,7 +83,8 @@ export class ProductsComponent implements OnInit {
             },err=> {
                 alert("pb de chargement");
             })
-   }
+   } 
+   
 
     //pb de cache du browser :
     //astuce consistant à obliger le navigateur à raffraichir son affichage et donc de prendre en compte une image de produit changé
@@ -92,8 +93,8 @@ export class ProductsComponent implements OnInit {
    }
 
    onProductDetails(p:Product){ //lorsqu'on clic sur la photo d'un produit, appel d'un composant d'édition détaillée
-        let url = btoa(p._links.product.href);  //"http://localhost:8080/products/1" par ex
-        //console.log('dans products.component url ='+url);
+        //let url = btoap(p._links.product.href);  //"http://localhost:8080/products/1" par ex
+        let url = btoa(p.id.toString());
         this.router.navigateByUrl('product/details/'+url);
    }
 

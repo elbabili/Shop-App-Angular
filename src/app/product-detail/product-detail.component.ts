@@ -1,6 +1,6 @@
 import {Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {CatalogueService} from '../catalogue.service';
+import {CatalogueService} from '../services/catalogue.service';
 import {AuthenticationService} from '../services/authentication.service';
 import {HttpEventType, HttpResponse} from '@angular/common/http';
 import {Product} from '../model/product.model';
@@ -27,9 +27,9 @@ export class ProductDetailComponent implements OnInit {
               public caddyService:CaddyService) { }
 
   ngOnInit() {
-    let url=atob(this.route.snapshot.params.url);
-    console.log('dans ngOnInit de product-detail url = '+url);
-    this.catalService.getResByUrlOnly(url)
+    let id = atob(this.route.snapshot.params.url);
+    //console.log('dans ngOnInit de product-detail url = '+url);
+    this.catalService.getRessources("/products/" + id)
       .subscribe(data=>{
         this.currentProduct=data;
         console.log('currentProduct ok');
@@ -47,7 +47,7 @@ export class ProductDetailComponent implements OnInit {
     this.selectedFiles=event.target.files;
   }
 
-  uploadPhoto() {
+   uploadPhoto() {
     this.progress = 0;
     this.currentFileUpload = this.selectedFiles.item(0)
     this.catalService.uploadPhotoProduct(this.currentFileUpload, this.currentProduct.id).subscribe(event => {
@@ -67,7 +67,7 @@ export class ProductDetailComponent implements OnInit {
 
 
     this.selectedFiles = undefined
-  }
+  } 
 
   onAddProductToCaddy(p:Product) {
     if(!this.authService.isAuthenticated){
@@ -93,8 +93,10 @@ export class ProductDetailComponent implements OnInit {
   }
 
   onUpdateProduct(data) {
-    let url=this.currentProduct._links.self.href;
-    this.catalService.patchResource(url,data)   //pacth contrairement à put, met à jour que les champs changé, ex : titre
+    //let url=this.currentProduct._links.self.href;
+    //this.catalService.patchRessource("/products/",data)   //pacth contrairement à put, met à jour que les champs changé, ex : titre
+    //ToDO : Gestion avec patch à faire côté back
+      this.catalService.updateRessource("/products/"+this.currentProduct.id,data)
       .subscribe(d=>{
         this.currentProduct=d;
         this.mode=0;

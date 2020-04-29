@@ -1,6 +1,6 @@
 <div *ngIf="responseProd">
   <div> <h4> {{title}}</h4></div>
-  <div *ngFor="let p of responseProd._embedded.products">
+  <div *ngFor="let p of responseProd">
       <div class="col-md-6">
         <div class="panel panel-default heigted">
             <div class="panel-heading">{{p.name}}</div>
@@ -45,7 +45,7 @@
               <div>
                 <form #f="ngForm" (ngSubmit)="onAddProductToCaddy(p)">
                     <label class="control-label">Quantité :</label>
-                    <input type="number" name="quantity" ngModel style="width: 40px" [(ngModel)]="p.quantity">
+                    <input type="number" name="quantity" ngModel style="width: 60px" [(ngModel)]="p.quantity">
                     <button>
                       <img src="assets/images/caddy.png">
                     </button>

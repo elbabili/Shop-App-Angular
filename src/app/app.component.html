@@ -1,7 +1,7 @@
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">WebSiteName</a>
+      <a class="navbar-brand" href="#">Ma boutique en ligne</a>
     </div>
 
     <ul class="nav navbar-nav">
@@ -19,7 +19,7 @@
 
     <ul class="nav navbar-nav pull-right">
       <li>
-        <a>{{caddyService.getCaddy().name}} | {{caddyService.getCaddy().items.size}}</a>
+        <a>{{caddyService.getCaddy().name}} | {{caddyService.getSize()}}</a>
       </li>
 
       <li>
@@ -38,7 +38,7 @@
   <div class = "col-md-3">
 
     <ul class="list-group" *ngIf="responseCat">
-        <li [ngClass]="currentCategorie==c?'active':''" (click)="getProductsByCat(c)" class="list-group-item clickable" *ngFor="let c of responseCat._embedded.categories">
+        <li [ngClass]="currentCategorie==c?'active':''" (click)="getProductsByCat(c)" class="list-group-item clickable" *ngFor="let c of responseCat">
             {{c.name}}
         </li>
     </ul>
