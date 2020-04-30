@@ -8,7 +8,7 @@ import { Product } from '../model/product.model';
 })
 
 export class CatalogueService {
-  public host : String = "http://192.168.0.38:5000";
+  public host : String = "http://localhost:5000";
 
   constructor(private http:HttpClient) { }
 

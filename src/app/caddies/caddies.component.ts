@@ -17,8 +17,8 @@ export class CaddiesComponent implements OnInit {
   public caddy:Caddy;
 
   constructor(private catService:CatalogueService, private router:Router,
-              private caddyService:CaddyService, private authService:AuthenticationService) { 
-    this.caddy = this.caddyService.getCaddy();            
+              private caddyService:CaddyService, private authService:AuthenticationService) {
+    this.caddy = this.caddyService.getCaddy();
   }
 
   ngOnInit() {
@@ -28,13 +28,14 @@ export class CaddiesComponent implements OnInit {
 
   onRemoveProductFromCaddy(p: ItemProduct) {
     this.caddyService.removeProduct(p.id);
+    this.caddy = this.caddyService.getCaddy();
   }
 
   getTotal() {
       return this.caddyService.getTotalCurrentCaddy();
   }
 
-  onNewOrder() {  //ToDO pour une personne non authentifié qui souhaite réaliser un panier ok 
+  onNewOrder() {  //ToDO pour une personne non authentifié qui souhaite réaliser un panier ok
                   //mais si elle souhaite passer commande, il faut s'authentifier
     if(this.authService.isAuthenticated == false)   this.router.navigateByUrl('/login');
     else this.router.navigateByUrl("/client");

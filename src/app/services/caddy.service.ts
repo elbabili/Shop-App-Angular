@@ -82,9 +82,9 @@ export class CaddyService {
     //this.listCaddies=[];
   }
 
-  getTotalCurrentCaddy() {    // renvoi le totale de la commande en cour
+  getTotalCurrentCaddy() {    // renvoi le total de la commande en cour
     let total = 0;
-    
+
     for(let m in this.caddy.items){
       let p = this.caddy.items[m];
       total += p.price * p.quantity;
@@ -92,8 +92,8 @@ export class CaddyService {
    /* this.caddy.items.forEach(function(key: ItemProduct){
       total += key.price * key.quantity;
       console.log(key);
-    });*/ 
-    
+    });*/
+
     return total;
   }
 
